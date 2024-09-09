@@ -1,6 +1,8 @@
 import os
 import streamlit as st
 from groq import Groq
+from dotenv import load_dotenv
+load_dotenv()
 
 st.set_page_config(
     page_title="Spatial Narratives",
@@ -9,7 +11,7 @@ st.set_page_config(
 st.markdown("## Spatial Narratives Project")
 st.markdown("#### Analysing the Lake District Writing and Holocaust Testimonies")
 
-client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 def main() -> None:
     # Get model
