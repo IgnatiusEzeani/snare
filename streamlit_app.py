@@ -19,8 +19,8 @@ models = {"llama3-8b-8192": "llama3-8b-8192", "llama3-70b-8192": "llama3-70b-819
           "llama-3.1-8b-instant": "llama-3.1-8b-instant", "gemma-7b-it": "gemma-7b-it", 
           "mixtral-8x7b-32768": "mixtral-8x7b-32768"}
 
-file_formats = {"csv": pd.read_csv, "xls": pd.read_excel, "xlsx": pd.read_excel, 
-                "xlsm": pd.read_excel, "xlsb": pd.read_excel}
+file_formats = {"csv": pd.read_csv, "tsv": pd.read_csv, "xls": pd.read_excel, "xlsx": pd.read_excel, 
+                "xlsm": pd.read_excel, "xlsb": pd.read_excel, "json": pd.read_json}
 
 @st.cache_data(ttl="2h")
 def load_data(uploaded_file):
@@ -29,7 +29,7 @@ def load_data(uploaded_file):
     except:
         ext = uploaded_file.split(".")[-1]
     if ext in file_formats:
-        return file_formats[ext](uploaded_file)
+        return file_formats[ext](uploaded_file) if ext!="json" else file_formats[ext](uploaded_file, sep="\t").T
     else:
         st.error(f"Unsupported file format: {ext}")
         return None
@@ -41,7 +41,7 @@ def main() -> None:
 
     if option != "Corpora LLM Prompting":
         st.markdown("This page is still under construction")
-        uploaded_files = st.file_uploader("Upload a CSV file", accept_multiple_files=True)
+        uploaded_files = st.file_uploader("Upload annotated testimony file(s)", accept_multiple_files=True)
 
         for uploaded_file in uploaded_files:
             bytes_data = uploaded_file.read()
