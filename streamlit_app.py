@@ -18,7 +18,9 @@ models = {"llama3-8b-8192": "llama3-8b-8192", "llama3-70b-8192": "llama3-70b-819
           "llama-3.1-8b-instant": "llama-3.1-8b-instant", "gemma-7b-it": "gemma-7b-it", 
           "mixtral-8x7b-32768": "mixtral-8x7b-32768"}
 
+
 def main() -> None:
+
     # Get model
     llm_model = st.sidebar.selectbox(
         "Select Model", options= models.values() #["llama3-70b-8192", "llama3-8b-8192", "mixtral-8x7b-32768"]
@@ -66,5 +68,32 @@ def main() -> None:
             model=llm_model,
         )
         st.markdown(chat_completion.choices[0].message.content)
+
+    def display_input_row(index):
+        left, middle, right = st.columns(3)
+        left.text_input('First', key=f'first_{index}')
+        middle.text_input('Middle', key=f'middle_{index}')
+        right.text_input('Last', key=f'last_{index}')
+
+    if 'rows' not in st.session_state:
+        st.session_state['rows'] = 0
+
+    def increase_rows():
+        st.session_state['rows'] += 1
+
+    st.button('Add person', on_click=increase_rows)
+
+    for i in range(st.session_state['rows']):
+        display_input_row(i)
+
+    # Show the results
+    st.subheader('People')
+    for i in range(st.session_state['rows']):
+        st.write(
+            f'Person {i+1}:',
+            st.session_state[f'first_{i}'],
+            st.session_state[f'middle_{i}'],
+            st.session_state[f'last_{i}']
+        )
 
 main()
