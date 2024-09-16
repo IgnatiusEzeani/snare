@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 import streamlit as st
 from groq import Groq
 from dotenv import load_dotenv
@@ -18,6 +19,20 @@ models = {"llama3-8b-8192": "llama3-8b-8192", "llama3-70b-8192": "llama3-70b-819
           "llama-3.1-8b-instant": "llama-3.1-8b-instant", "gemma-7b-it": "gemma-7b-it", 
           "mixtral-8x7b-32768": "mixtral-8x7b-32768"}
 
+file_formats = {"csv": pd.read_csv, "xls": pd.read_excel, "xlsx": pd.read_excel, 
+                "xlsm": pd.read_excel, "xlsb": pd.read_excel}
+
+@st.cache_data(ttl="2h")
+def load_data(uploaded_file):
+    try:
+        ext = os.path.splitext(uploaded_file.name)[1][1:].lower()
+    except:
+        ext = uploaded_file.split(".")[-1]
+    if ext in file_formats:
+        return file_formats[ext](uploaded_file)
+    else:
+        st.error(f"Unsupported file format: {ext}")
+        return None
 
 def main() -> None:
     option = st.sidebar.radio(
@@ -26,6 +41,17 @@ def main() -> None:
 
     if option != "Corpora LLM Prompting":
         st.markdown("This page is still under construction")
+        uploaded_files = st.file_uploader("Upload a CSV file", accept_multiple_files=True)
+
+        for uploaded_file in uploaded_files:
+            bytes_data = uploaded_file.read()
+            st.write("filename:", uploaded_file.name)
+            st.write(bytes_data)
+        
+        # Read the Pandas DataFrame
+        filedf = load_data(uploaded_file)
+        filedf
+
     else:
         # Get model
         llm_model = st.sidebar.selectbox(
