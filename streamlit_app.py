@@ -29,7 +29,7 @@ def load_data(uploaded_file):
     except:
         ext = uploaded_file.split(".")[-1]
     if ext in file_formats:
-        return file_formats[ext](uploaded_file) if ext!="json" else file_formats[ext](uploaded_file, sep="\t")
+        return file_formats[ext](uploaded_file) if ext!="json" else file_formats[ext](uploaded_file)
     else:
         st.error(f"Unsupported file format: {ext}")
         return None
