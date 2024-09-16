@@ -48,9 +48,9 @@ def main() -> None:
             st.write("filename:", uploaded_file.name)
             st.write(bytes_data)
         
-        # Read the Pandas DataFrame
-        filedf = load_data(uploaded_file)
-        filedf
+            # Read the Pandas DataFrame
+            filedf = load_data(uploaded_file)
+            filedf
 
     else:
         # Get model
