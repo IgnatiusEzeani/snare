@@ -21,7 +21,7 @@ models = {"llama3-8b-8192": "llama3-8b-8192", "llama3-70b-8192": "llama3-70b-819
 
 def main() -> None:
     option = st.sidebar.radio(
-    "What's your favorite movie genre", ["Spatial Analysis", "Queries with Data", "Corpora LLM Prompting"],
+    "What do you you want to do?", ["Spatial Analysis", "Queries with Data", "Corpora LLM Prompting"],
     index=None)
 
     if option != "Corpora LLM Prompting":
