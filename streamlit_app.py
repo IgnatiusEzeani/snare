@@ -29,7 +29,7 @@ def load_data(uploaded_file):
     except:
         ext = uploaded_file.split(".")[-1]
     if ext in file_formats:
-        return file_formats[ext](uploaded_file) if ext!="json" else file_formats[ext](uploaded_file, sep="\t").T
+        return file_formats[ext](uploaded_file) if ext!="json" else file_formats[ext](uploaded_file, sep="\t")
     else:
         st.error(f"Unsupported file format: {ext}")
         return None
@@ -44,13 +44,13 @@ def main() -> None:
         uploaded_files = st.file_uploader("Upload annotated testimony file(s)", accept_multiple_files=True)
 
         for uploaded_file in uploaded_files:
-            bytes_data = uploaded_file.read()
-            st.write("filename:", uploaded_file.name)
-            st.write(bytes_data)
+            # bytes_data = uploaded_file.read()
+            # st.write("filename:", uploaded_file.name)
+            # st.write(bytes_data)
         
             # Read the Pandas DataFrame
             filedf = load_data(uploaded_file)
-            filedf
+            st.dataframe(filedf.T)
 
     else:
         # Get model
