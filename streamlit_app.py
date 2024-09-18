@@ -41,7 +41,7 @@ def main() -> None:
     index=None)
 
     if option == "Spatial Data Analysis":
-        st.markdown("This page is still under construction...")
+        # st.markdown("This page is still under construction...")
 
         # Example usage of the function
         selected_emotions = ["sadness", "anger", "fear", "joy"]

@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+from io import BytesIO
 
 def plot_emotions(selected_emotions, fileids, Only_All=False, save_path=None):
     """
@@ -79,9 +80,17 @@ def plot_emotions(selected_emotions, fileids, Only_All=False, save_path=None):
     # Adjust layout
     plt.tight_layout(rect=[0, 0.05, 1, 0.95])  # Leave space for the global x-axis label
 
-    # Show the plot
-    plt.show()
+    # Render the plot in Streamlit
+    st.pyplot(fig)
 
-    # Save the plot if save_path is provided
-    if save_path:
-        plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    # Optionally provide a download button for the plot
+    buffer = BytesIO()
+    fig.savefig(buffer, format="png", dpi=300, bbox_inches='tight')
+    buffer.seek(0)
+    
+    st.download_button(
+        label="Download plot as PNG",
+        data=buffer,
+        file_name="emotions_plot.png",
+        mime="image/png"
+    )
