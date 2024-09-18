@@ -40,7 +40,7 @@ def main() -> None:
     "What do you you want to do?", ["Spatial Data Analysis", "LLM Query-Prompting"],
     index=None)
 
-    if option != "Spatial Data Analysis":
+    if option == "Spatial Data Analysis":
         st.markdown("This page is still under construction...")
 
         # Example usage of the function
