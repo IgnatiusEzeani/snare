@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import streamlit as st
 from groq import Groq
+import analyzer as an
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -36,23 +37,34 @@ def load_data(uploaded_file):
 
 def main() -> None:
     option = st.sidebar.radio(
-    "What do you you want to do?", ["Spatial Analysis", "Queries with Data", "Corpora LLM Prompting"],
+    "What do you you want to do?", ["Spatial Data Analysis", "LLM Query-Prompting"],
     index=None)
 
-    if option != "Corpora LLM Prompting":
-        st.markdown("This page is still under construction")
-        uploaded_files = st.file_uploader("Upload annotated testimony file(s)", accept_multiple_files=True)
+    if option != "Spatial Data Analysis":
+        st.markdown("This page is still under construction...")
 
-        for uploaded_file in uploaded_files:
-            # bytes_data = uploaded_file.read()
-            # st.write("filename:", uploaded_file.name)
-            # st.write(bytes_data)
+        # Example usage of the function
+        selected_emotions = ["sadness", "anger", "fear", "joy"]
+        fileids = ["268", "37210", "37567"]  # List of file IDs
+        Only_All = False
+        save_path = 'emotions_plot.png'  # Optional path to save the plot
+
+        an.plot_emotions(selected_emotions, fileids, Only_All, save_path)
+
+    # elif option == "Spatial AnalysisCorpora LLM Prompting":
+    #     pass
+        # uploaded_files = st.file_uploader("Upload annotated testimony file(s)", accept_multiple_files=True)
+
+        # for uploaded_file in uploaded_files:
+        #     # bytes_data = uploaded_file.read()
+        #     # st.write("filename:", uploaded_file.name)
+        #     # st.write(bytes_data)
         
-            # Read the Pandas DataFrame
-            filedf = load_data(uploaded_file)
-            st.dataframe(filedf.T)
+        #     # Read the Pandas DataFrame
+        #     filedf = load_data(uploaded_file)
+        #     st.dataframe(filedf.T)
 
-    else:
+    elif option == "LLM Query-Prompting":
         # Get model
         llm_model = st.sidebar.selectbox(
             "Select Model", options= models.values() #["llama3-70b-8192", "llama3-8b-8192", "mixtral-8x7b-32768"]
@@ -100,5 +112,7 @@ def main() -> None:
                 model=llm_model,
             )
             st.markdown(chat_completion.choices[0].message.content)
+    else:
+        pass
 
 main()
