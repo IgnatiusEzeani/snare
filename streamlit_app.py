@@ -53,9 +53,9 @@ def main() -> None:
         # Example usage of the function
         all_emotions = ['sadness', 'anger', 'fear', 'anxiety', 'despair', 'joy', 'gratitude', 'surprise', 'neutral']
         selected_emotions = st.sidebar.multiselect("Select emotions", all_emotions, ["sadness", "anger", "fear", "joy"])
-        fileids = [f[:-4] for f in os.listdir("llm_emotion_scores") if f!="all_file_scores.tsv"]  # List of file IDs
+        fileids = [f.split('_')[0] for f in os.listdir("llm_emotion_scores") if f!="all_file_scores.tsv"]  # List of file IDs
         fileids
-        selected_fileids = st.sidebar.multiselect("Select Testimony ID", fileids, [268, 37210, 37567])
+        selected_fileids = st.sidebar.multiselect("Select Testimony ID", fileids, ['268', '37210', '37567'])
         with_combined = True
         save_path = 'emotions_plot.png'  # Optional path to save the plot
 
