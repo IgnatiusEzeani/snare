@@ -18,10 +18,9 @@ def plot_emotions(selected_emotions, file_list, with_combined=True):
         print("Please select at least one emotion to plot.")
         return
 
-    title = st.markdown("Plotting the journeys of\n" + ', '.join([f"'{e}'" for e in selected_emotions[:-1]]) + f" and '{selected_emotions[-1]}'\nacross testimony segments."
-)
+    title = "Plotting the journeys of\n" + ', '.join([f"'{e}'" for e in selected_emotions[:-1]]) + f" and '{selected_emotions[-1]}'\nacross testimony segments."
     # Set up the subplots in a 4x2 grid
-    fig, axes = plt.subplots(3, 3, figsize=(16, 10), sharex=True, sharey=True)
+    fig, axes = plt.subplots(5, 2, figsize=(16, 20), sharex=True, sharey=True)
     
     # Flatten axes array for easy indexing
     axes = axes.flatten()
