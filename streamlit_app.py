@@ -18,8 +18,9 @@ st.set_page_config(
      }
  )
 
-st.markdown("## SNARE 1.0 Spatial Narratives Representation Environment")
-st.markdown("#### Analysing the Lake District Writing and Holocaust Testimonies")
+st.markdown("# SNARE 1.0")
+st.markdown("### Spatial Narratives Representation Environment")
+st.markdown("##### Analysing the Lake District Writing and Holocaust Testimonies")
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
@@ -53,7 +54,7 @@ def main() -> None:
         all_emotions = ['sadness', 'anger', 'fear', 'anxiety', 'despair', 'joy', 'gratitude', 'surprise', 'neutral']
         selected_emotions = st.sidebar.multiselect("Select emotions", all_emotions, ["sadness", "anger", "fear", "joy"])
         fileids = [f[:-4] for f in os.listdir("llm_emotion_scores") if f!="all_file_scores.tsv"]  # List of file IDs
-        selected_fileids = st.sidebar.multiselect("Select Testimony ID", fileids, ["268", "37210", "37567"])
+        selected_fileids = st.sidebar.multiselect("Select Testimony ID", fileids, [268, 37210, 37567])
         with_combined = True
         save_path = 'emotions_plot.png'  # Optional path to save the plot
 
