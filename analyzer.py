@@ -3,7 +3,7 @@ import pandas as pd
 from io import BytesIO
 import streamlit as st
 
-def plot_emotions(selected_emotions, file_list, with_combined=False, save_path=None):
+def plot_emotions(selected_emotions, file_list, with_combined=True):
     """
     Function to plot emotions across testimony segments for multiple files.
 
@@ -18,8 +18,8 @@ def plot_emotions(selected_emotions, file_list, with_combined=False, save_path=N
         print("Please select at least one emotion to plot.")
         return
 
-    title = f"Plotting the journeys of\n" + ', '.join([f"'{e}'" for e in selected_emotions[:-1]]) + f" and '{selected_emotions[-1]}'\nacross testimony segments."
-
+    title = st.markdown("Plotting the journeys of\n" + ', '.join([f"'{e}'" for e in selected_emotions[:-1]]) + f" and '{selected_emotions[-1]}'\nacross testimony segments."
+)
     # Set up the subplots in a 4x2 grid
     fig, axes = plt.subplots(3, 3, figsize=(16, 10), sharex=True, sharey=True)
     
@@ -41,11 +41,13 @@ def plot_emotions(selected_emotions, file_list, with_combined=False, save_path=N
     for i, emotion in enumerate(selected_emotions):
         ax = axes[i]
         if with_combined:
-            data1[emotion].plot(ax=ax, kind='line', title=emotion, fontsize=12, label='All 998 Testimonies')
-        else:
-            # Plot for "All Files" first
-            data1[emotion].plot(ax=ax, kind='line', title=emotion, fontsize=12, label='All 998 Testimonies')
+            # Plot for "All 998 Testimonies" first
+            data1[emotion].plot(ax=ax, kind='line', title=emotion, fontsize=12, label='All 998 Testimonies', linestyle='--')
 
+            # Plot for each fileid separately
+            for idx, data2 in enumerate(data2_list):
+                data2[emotion].plot(ax=ax, kind='line', title=emotion, fontsize=12, label=f"Testimony ID '{file_list[idx]}'")
+        else:
             # Plot for each fileid separately
             for idx, data2 in enumerate(data2_list):
                 data2[emotion].plot(ax=ax, kind='line', title=emotion, fontsize=12, label=f"Testimony ID '{file_list[idx]}'")

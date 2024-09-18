@@ -18,7 +18,7 @@ st.set_page_config(
      }
  )
 
-st.markdown("# SNARE 1.0")
+st.markdown("## SNARE 1.0")
 st.markdown("### Spatial Narratives Representation Environment")
 st.markdown("##### Analysing the Lake District Writing and Holocaust Testimonies")
 
@@ -32,17 +32,17 @@ models = {"llama3-8b-8192": "llama3-8b-8192", "llama3-70b-8192": "llama3-70b-819
 file_formats = {"csv": pd.read_csv, "tsv": pd.read_csv, "xls": pd.read_excel, "xlsx": pd.read_excel, 
                 "xlsm": pd.read_excel, "xlsb": pd.read_excel, "json": pd.read_json}
 
-@st.cache_data(ttl="2h")
-def load_data(uploaded_file):
-    try:
-        ext = os.path.splitext(uploaded_file.name)[1][1:].lower()
-    except:
-        ext = uploaded_file.split(".")[-1]
-    if ext in file_formats:
-        return file_formats[ext](uploaded_file) if ext!="json" else file_formats[ext](uploaded_file)
-    else:
-        st.error(f"Unsupported file format: {ext}")
-        return None
+# @st.cache_data(ttl="2h")
+# def load_data(uploaded_file):
+#     try:
+#         ext = os.path.splitext(uploaded_file.name)[1][1:].lower()
+#     except:
+#         ext = uploaded_file.split(".")[-1]
+#     if ext in file_formats:
+#         return file_formats[ext](uploaded_file) if ext!="json" else file_formats[ext](uploaded_file)
+#     else:
+#         st.error(f"Unsupported file format: {ext}")
+#         return None
 
 def main() -> None:
     option = st.sidebar.radio(
@@ -50,16 +50,18 @@ def main() -> None:
     index=None)
 
     if option == "Spatial Data Analysis":
-        # Example usage of the function
+        # Add emotion selector
         all_emotions = ['sadness', 'anger', 'fear', 'anxiety', 'despair', 'joy', 'gratitude', 'surprise', 'neutral']
         selected_emotions = st.sidebar.multiselect("Select emotions", all_emotions, ["sadness", "anger", "fear", "joy"])
+        
+        # Add testimony id selector
         fileids = sorted([f.split('_')[0] for f in os.listdir("llm_emotion_scores") if f!="all_file_scores.tsv"])  # List of file IDs
-        fileids
         selected_fileids = st.sidebar.multiselect("Select Testimony ID", fileids, ['268', '37210', '37567'])
-        with_combined = True
-        save_path = 'emotions_plot.png'  # Optional path to save the plot
+        
+        # Include plot of combined scores in the plot?
+        with_combined = st.checkbox("Include plot of combined scores?", True)
 
-        plot_emotions(selected_emotions, selected_fileids, with_combined, save_path)
+        plot_emotions(selected_emotions, selected_fileids, with_combined)
 
     elif option == "LLM Query-Prompting":
         # Get model
