@@ -27,12 +27,9 @@ def plot_emotions(selected_emotions, file_list, with_combined=True):
     axes = axes.flatten()
     
     # Get data based on fileids (All or multiple specific files)
-    if with_combined:
-        data1 = all_file_scores_df[selected_emotions].rolling(10).mean().dropna()
-        data2_list = [pd.read_csv(f"llm_emotion_scores/{f}_scores.tsv", sep='\t')[selected_emotions].rolling(10).mean().dropna() for f in file_list]
-    else:
-        data2_list = [pd.read_csv(f"llm_emotion_scores/{f}_scores.tsv", sep='\t')[selected_emotions].rolling(10).mean().dropna() for f in file_list]
-
+    data1 = all_file_scores_df[selected_emotions].rolling(10).mean().dropna()
+    data2_list = [pd.read_csv(f"llm_emotion_scores/{f}_scores.tsv", sep='\t')[selected_emotions].rolling(10).mean().dropna() for f in file_list]
+    
     # Define limits for x and y axis based on the entire data range
     x_limits = (min([data.index.min() for data in data2_list]), max([data.index.max() for data in data2_list]))
     y_limits = (min([data.min().min() for data in data2_list]), max([data.max().max() for data in data2_list]))  # Ensure the same y-axis scale for all plots
