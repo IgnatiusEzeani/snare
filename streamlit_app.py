@@ -7,11 +7,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 st.set_page_config(
-    page_title="Spatial Narratives",
-    # page_icon=":orange_heart:",
-)
-
-st.set_page_config(
      page_title = "Spatio-Temporal Explorer",
      page_icon = "🌎", # 📍🗾🌏🌎🌐
      layout = "wide",
