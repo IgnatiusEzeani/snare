@@ -54,6 +54,7 @@ def main() -> None:
         all_emotions = ['sadness', 'anger', 'fear', 'anxiety', 'despair', 'joy', 'gratitude', 'surprise', 'neutral']
         selected_emotions = st.sidebar.multiselect("Select emotions", all_emotions, ["sadness", "anger", "fear", "joy"])
         fileids = [f[:-4] for f in os.listdir("llm_emotion_scores") if f!="all_file_scores.tsv"]  # List of file IDs
+        fileids
         selected_fileids = st.sidebar.multiselect("Select Testimony ID", fileids, [268, 37210, 37567])
         with_combined = True
         save_path = 'emotions_plot.png'  # Optional path to save the plot
@@ -113,15 +114,15 @@ def main() -> None:
 
 main()
 
-    # elif option == "Spatial AnalysisCorpora LLM Prompting":
-    #     pass
-        # uploaded_files = st.file_uploader("Upload annotated testimony file(s)", accept_multiple_files=True)
+# elif option == "Spatial AnalysisCorpora LLM Prompting":
+#     pass
+    # uploaded_files = st.file_uploader("Upload annotated testimony file(s)", accept_multiple_files=True)
 
-        # for uploaded_file in uploaded_files:
-        #     # bytes_data = uploaded_file.read()
-        #     # st.write("filename:", uploaded_file.name)
-        #     # st.write(bytes_data)
-        
-        #     # Read the Pandas DataFrame
-        #     filedf = load_data(uploaded_file)
-        #     st.dataframe(filedf.T)
+    # for uploaded_file in uploaded_files:
+    #     # bytes_data = uploaded_file.read()
+    #     # st.write("filename:", uploaded_file.name)
+    #     # st.write(bytes_data)
+    
+    #     # Read the Pandas DataFrame
+    #     filedf = load_data(uploaded_file)
+    #     st.dataframe(filedf.T)
