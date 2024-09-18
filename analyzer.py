@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 from io import BytesIO
+import streamlit as st
 
 def plot_emotions(selected_emotions, fileids, Only_All=False, save_path=None):
     """
