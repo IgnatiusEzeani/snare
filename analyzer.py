@@ -11,12 +11,13 @@ def plot_emotions(selected_emotions, fileids, with_combined=True):
     - selected_emotions (list): List of emotions to plot.
     - fileids (list): List of file IDs for the specific files to plot.
     - with_combined (bool): If True, include the combined results from all files in the plot.
-    - save_path (str or None): Path to save the plot. If None, the plot is not saved.
     """
     all_file_scores_df = pd.read_csv(f"llm_emotion_scores/all_file_scores.tsv", sep='\t')
     if len(selected_emotions) < 1:
-        print("Please select at least one emotion to plot.")
-        return
+        return "Error: You must select at least one emotion label!"
+    
+    if len(fileids) < 1:
+        return "Error: You must select at least one testimony ID!"
 
     title = "Plotting the journeys of\n" + ', '.join([f"'{e}'" for e in selected_emotions[:-1]]) + f" and '{selected_emotions[-1]}'\nacross testimony segments."
     # Set up the subplots in a 4x2 grid

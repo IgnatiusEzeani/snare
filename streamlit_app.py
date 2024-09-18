@@ -29,8 +29,8 @@ models = {"llama3-8b-8192": "llama3-8b-8192", "llama3-70b-8192": "llama3-70b-819
           "llama-3.1-8b-instant": "llama-3.1-8b-instant", "gemma-7b-it": "gemma-7b-it", 
           "mixtral-8x7b-32768": "mixtral-8x7b-32768"}
 
-file_formats = {"csv": pd.read_csv, "tsv": pd.read_csv, "xls": pd.read_excel, "xlsx": pd.read_excel, 
-                "xlsm": pd.read_excel, "xlsb": pd.read_excel, "json": pd.read_json}
+# file_formats = {"csv": pd.read_csv, "tsv": pd.read_csv, "xls": pd.read_excel, "xlsx": pd.read_excel, 
+#                 "xlsm": pd.read_excel, "xlsb": pd.read_excel, "json": pd.read_json}
 
 # @st.cache_data(ttl="2h")
 # def load_data(uploaded_file):
@@ -54,14 +54,10 @@ def main() -> None:
         all_emotions = ['sadness', 'anger', 'fear', 'anxiety', 'despair', 'joy', 'gratitude', 'surprise', 'neutral']
         selected_emotions = st.sidebar.multiselect("Select emotions", all_emotions, ["sadness", "anger", "fear", "joy"])
 
-        if len(selected_fileids) == 0:
-            raise ValueError("Error: You must select at least one emotion label!")
-
         # Add testimony id selector
         fileids = sorted([f.split('_')[0] for f in os.listdir("llm_emotion_scores") if f!="all_file_scores.tsv"])  # List of file IDs
         selected_fileids = st.sidebar.multiselect("Select Testimony ID", fileids, ['268', '37210', '37567'])
-        if len(selected_fileids) == 0:
-            raise ValueError("Error: You must select at least one testimony ID!")        
+
         # Include plot of combined scores in the plot?
         with_combined = st.checkbox("Include plot of combined scores?", True)
 
@@ -70,7 +66,7 @@ def main() -> None:
     elif option == "LLM Query-Prompting":
         # Get model
         llm_model = st.sidebar.selectbox(
-            "Select Model", options= models.values() #["llama3-70b-8192", "llama3-8b-8192", "mixtral-8x7b-32768"]
+            "Select Model", options= models.values()
         )
 
         example_file = st.sidebar.selectbox(
