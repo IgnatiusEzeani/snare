@@ -53,13 +53,15 @@ def main() -> None:
         # Add emotion selector
         all_emotions = ['sadness', 'anger', 'fear', 'anxiety', 'despair', 'joy', 'gratitude', 'surprise', 'neutral']
         selected_emotions = st.sidebar.multiselect("Select emotions", all_emotions, ["sadness", "anger", "fear", "joy"])
-        assert len(selected_emotions)>0, "Error: You must select at least one emotion label!"
+
+        if len(selected_fileids) == 0:
+            raise ValueError("Error: You must select at least one emotion label!")
 
         # Add testimony id selector
         fileids = sorted([f.split('_')[0] for f in os.listdir("llm_emotion_scores") if f!="all_file_scores.tsv"])  # List of file IDs
         selected_fileids = st.sidebar.multiselect("Select Testimony ID", fileids, ['268', '37210', '37567'])
-        assert len(selected_fileids)>0, "Error: You must select at least one testimony ID!"
-        
+        if len(selected_fileids) == 0:
+            raise ValueError("Error: You must select at least one testimony ID!")        
         # Include plot of combined scores in the plot?
         with_combined = st.checkbox("Include plot of combined scores?", True)
 
