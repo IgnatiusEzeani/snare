@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import streamlit as st
 from groq import Groq
-import analyzer as an
+from analyzer import *
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -10,7 +10,20 @@ st.set_page_config(
     page_title="Spatial Narratives",
     # page_icon=":orange_heart:",
 )
-st.markdown("## Spatial Narratives Project")
+
+st.set_page_config(
+     page_title = "Spatio-Temporal Explorer",
+     page_icon = "🌎", # 📍🗾🌏🌎🌐
+     layout = "wide",
+     initial_sidebar_state = "expanded",
+     menu_items={
+         'Get Help': "https://github.com/SpaceTimeNarratives",
+         'Report a bug': "https://github.com/SpaceTimeNarratives",
+         'About': '''## Understanding imprecise space and time in narratives through qualitative representations, reasoning, and visualisation'''
+     }
+ )
+
+st.markdown("## SNARE 1.0 Spatial Narratives Representation Environment")
 st.markdown("#### Analysing the Lake District Writing and Holocaust Testimonies")
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
@@ -41,28 +54,15 @@ def main() -> None:
     index=None)
 
     if option == "Spatial Data Analysis":
-        # st.markdown("This page is still under construction...")
-
         # Example usage of the function
-        selected_emotions = ["sadness", "anger", "fear", "joy"]
-        fileids = ["268", "37210", "37567"]  # List of file IDs
-        Only_All = False
+        all_emotions = ['sadness', 'anger', 'fear', 'anxiety', 'despair', 'joy', 'gratitude', 'surprise', 'neutral']
+        selected_emotions = st.sidebar.multiselect("Select emotions", all_emotions, ["sadness", "anger", "fear", "joy"])
+        fileids = [f[:-4] for f in os.listdir("llm_emotion_scores") if f!="all_file_scores.tsv"]  # List of file IDs
+        selected_fileids = st.sidebar.multiselect("Select Testimony ID", fileids, ["268", "37210", "37567"])
+        with_combined = True
         save_path = 'emotions_plot.png'  # Optional path to save the plot
 
-        an.plot_emotions(selected_emotions, fileids, Only_All, save_path)
-
-    # elif option == "Spatial AnalysisCorpora LLM Prompting":
-    #     pass
-        # uploaded_files = st.file_uploader("Upload annotated testimony file(s)", accept_multiple_files=True)
-
-        # for uploaded_file in uploaded_files:
-        #     # bytes_data = uploaded_file.read()
-        #     # st.write("filename:", uploaded_file.name)
-        #     # st.write(bytes_data)
-        
-        #     # Read the Pandas DataFrame
-        #     filedf = load_data(uploaded_file)
-        #     st.dataframe(filedf.T)
+        plot_emotions(selected_emotions, selected_fileids, with_combined, save_path)
 
     elif option == "LLM Query-Prompting":
         # Get model
@@ -116,3 +116,16 @@ def main() -> None:
         pass
 
 main()
+
+    # elif option == "Spatial AnalysisCorpora LLM Prompting":
+    #     pass
+        # uploaded_files = st.file_uploader("Upload annotated testimony file(s)", accept_multiple_files=True)
+
+        # for uploaded_file in uploaded_files:
+        #     # bytes_data = uploaded_file.read()
+        #     # st.write("filename:", uploaded_file.name)
+        #     # st.write(bytes_data)
+        
+        #     # Read the Pandas DataFrame
+        #     filedf = load_data(uploaded_file)
+        #     st.dataframe(filedf.T)
