@@ -30,8 +30,8 @@ def plot_emotions(selected_emotions, fileids, with_combined=True):
     data2_list = [pd.read_csv(f"llm_emotion_scores/{f}_scores.tsv", sep='\t')[selected_emotions].rolling(10).mean().dropna() for f in fileids]
     
     for idx, data2 in enumerate(data2_list):
-        f"Data for file ID {fileids[idx]}:"
-        data2.head()  # Print the first few rows to verify
+        st.write(f"Data for file ID {fileids[idx]}:")
+        st.write(data2.head())  # Print the first few rows to verify
 
     # Define limits for x and y axis based on the entire data range
     x_limits = (min([data.index.min() for data in data2_list]), max([data.index.max() for data in data2_list]))
