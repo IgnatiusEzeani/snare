@@ -3,7 +3,7 @@ import pandas as pd
 from io import BytesIO
 import streamlit as st
 
-def plot_emotions(selected_emotions, file_list, with_combined=True):
+def plot_emotions(selected_emotions, fileids, with_combined=True):
     """
     Function to plot emotions across testimony segments for multiple files.
 
@@ -27,7 +27,7 @@ def plot_emotions(selected_emotions, file_list, with_combined=True):
     
     # Get data based on fileids (All or multiple specific files)
     data1 = all_file_scores_df[selected_emotions].rolling(10).mean().dropna()
-    data2_list = [pd.read_csv(f"llm_emotion_scores/{f}_scores.tsv", sep='\t')[selected_emotions].rolling(10).mean().dropna() for f in file_list]
+    data2_list = [pd.read_csv(f"llm_emotion_scores/{f}_scores.tsv", sep='\t')[selected_emotions].rolling(10).mean().dropna() for f in fileids]
     
     # Define limits for x and y axis based on the entire data range
     x_limits = (min([data.index.min() for data in data2_list]), max([data.index.max() for data in data2_list]))
@@ -42,11 +42,11 @@ def plot_emotions(selected_emotions, file_list, with_combined=True):
 
             # Plot for each fileid separately
             for idx, data2 in enumerate(data2_list):
-                data2[emotion].plot(ax=ax, kind='line', title=emotion, fontsize=12, label=f"Testimony ID '{file_list[idx]}'")
+                data2[emotion].plot(ax=ax, kind='line', title=emotion, fontsize=12, label=f"Testimony ID '{fileids[idx]}'")
         else:
             # Plot for each fileid separately
             for idx, data2 in enumerate(data2_list):
-                data2[emotion].plot(ax=ax, kind='line', title=emotion, fontsize=12, label=f"Testimony ID '{file_list[idx]}'")
+                data2[emotion].plot(ax=ax, kind='line', title=emotion, fontsize=12, label=f"Testimony ID '{fileids[idx]}'")
 
         # Set limits for x and y axes
         ax.set_xlim(x_limits)
