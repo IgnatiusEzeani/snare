@@ -5,7 +5,7 @@ import streamlit as st
 import math
 
 
-def plot_emotions(selected_emotions, fileids, with_combined=True, plot_type='line'):
+def plot_emotions(selected_emotions, fileids, with_combined=True, barchart=False):
     """
     Function to plot emotions across testimony segments for multiple files.
 
@@ -62,8 +62,8 @@ def plot_emotions(selected_emotions, fileids, with_combined=True, plot_type='lin
 
         # Plot for each fileid separately
         for idx, data2 in enumerate(data2_list):
-            if plot_type=='line': line = ax.plot(data2.index, data2[emotion], label=f"Testimony ID '{fileids[idx]}'")
-            else: bar = ax.bar(data2.index, data2[emotion], label=f"Testimony ID '{fileids[idx]}'", alpha=0.7)
+            if barchart: bar = ax.bar(data2.index, data2[emotion], label=f"Testimony ID '{fileids[idx]}'", alpha=0.7) 
+            else: line = ax.plot(data2.index, data2[emotion], label=f"Testimony ID '{fileids[idx]}'")
 
             if i == 0:  # Only add the label once
                 handles.append(bar[0])
