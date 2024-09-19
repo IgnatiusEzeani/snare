@@ -60,7 +60,7 @@ def main() -> None:
         with_combined = st.checkbox("Include plot of combined scores?", True)
 
         err = plot_emotions(selected_emotions, selected_fileids, with_combined)
-        if err: st.write(err)
+        if err: st.error(err, icon="🚨")
 
     elif option == "LLM Query-Prompting":
         # Get model
