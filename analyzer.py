@@ -20,7 +20,7 @@ def plot_emotions(selected_emotions, fileids, with_combined=True):
         return "Error: You must select at least one testimony ID!"
 
     title = "Plotting the journeys of\n" + ', '.join([f"'{e}'" for e in selected_emotions[:-1]]) + f" and '{selected_emotions[-1]}'\nacross testimony segments."
-    # Set up the subplots in a 4x2 grid
+    # Set up the subplots in a 4x2 grid (with one additional subplot for the legend)
     fig, axes = plt.subplots(5, 2, figsize=(16, 20), sharex=True, sharey=True)
     
     # Flatten axes array for easy indexing
@@ -34,27 +34,37 @@ def plot_emotions(selected_emotions, fileids, with_combined=True):
     x_limits = (min([data.index.min() for data in data2_list]), max([data.index.max() for data in data2_list]))
     y_limits = (min([data.min().min() for data in data2_list]), max([data.max().max() for data in data2_list]))  # Ensure the same y-axis scale for all plots
 
+    # Create a list to hold plot lines for the legend
+    handles = []
+    labels = []
+
     # Plot each emotion in a separate subplot
     for i, emotion in enumerate(selected_emotions):
         ax = axes[i]
         if with_combined:
             # Plot for "All 998 Testimonies" first
-            data1[emotion].plot(ax=ax, kind='line', title=emotion, fontsize=12, label='All 998 Testimonies', linestyle='--')
+            line, = data1[emotion].plot(ax=ax, kind='line', title=emotion, fontsize=12, linestyle='--', color='black')
+            if i == 0:  # Only add the label once to avoid duplication
+                handles.append(line)
+                labels.append('All 998 Testimonies')
 
             # Plot for each fileid separately
             for idx, data2 in enumerate(data2_list):
-                data2[emotion].plot(ax=ax, kind='line', title=emotion, fontsize=12, label=f"Testimony ID '{fileids[idx]}'")
+                line, = data2[emotion].plot(ax=ax, kind='line', title=emotion, fontsize=12, label=f"Testimony ID '{fileids[idx]}'")
+                if i == 0:  # Only add the label once
+                    handles.append(line)
+                    labels.append(f"Testimony ID '{fileids[idx]}'")
         else:
             # Plot for each fileid separately
             for idx, data2 in enumerate(data2_list):
-                data2[emotion].plot(ax=ax, kind='line', title=emotion, fontsize=12, label=f"Testimony ID '{fileids[idx]}'")
+                line, = data2[emotion].plot(ax=ax, kind='line', title=emotion, fontsize=12, label=f"Testimony ID '{fileids[idx]}'")
+                if i == 0:  # Only add the label once
+                    handles.append(line)
+                    labels.append(f"Testimony ID '{fileids[idx]}'")
 
         # Set limits for x and y axes
         ax.set_xlim(x_limits)
         ax.set_ylim(y_limits)
-        
-        # Add legend
-        ax.legend()
         
         # Set plot labels
         ax.set_ylabel("Emotion Score", fontsize=10)
@@ -64,8 +74,13 @@ def plot_emotions(selected_emotions, fileids, with_combined=True):
         ax.spines[['top', 'right']].set_visible(False)
 
     # Hide any unused subplots
-    for i in range(len(selected_emotions), len(axes)):
+    for i in range(len(selected_emotions), len(axes) - 1):  # Reserve last subplot for the legend
         fig.delaxes(axes[i])
+
+    # Add the legend to the last subplot
+    ax = axes[-1]
+    ax.axis('off')  # Turn off the axis for the subplot used for legend
+    ax.legend(handles=handles, labels=labels, loc='center')
 
     # Set overall title
     plt.suptitle(title, fontsize=20)

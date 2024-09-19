@@ -45,9 +45,7 @@ models = {"llama3-8b-8192": "llama3-8b-8192", "llama3-70b-8192": "llama3-70b-819
 #         return None
 
 def main() -> None:
-    option = st.sidebar.radio(
-    "What do you you want to do?", ["Spatial Data Analysis", "LLM Query-Prompting"],
-    index=None)
+    option = st.sidebar.radio("What do you you want to do?", ["Spatial Data Analysis", "LLM Query-Prompting"], index=None)
 
     if option == "Spatial Data Analysis":
         # Add emotion selector
@@ -61,7 +59,8 @@ def main() -> None:
         # Include plot of combined scores in the plot?
         with_combined = st.checkbox("Include plot of combined scores?", True)
 
-        plot_emotions(selected_emotions, selected_fileids, with_combined)
+        err = plot_emotions(selected_emotions, selected_fileids, with_combined)
+        if err: st.write(err)
 
     elif option == "LLM Query-Prompting":
         # Get model
