@@ -78,8 +78,8 @@ def plot_emotions(selected_emotions, fileids, with_combined=True):
     for i in range(len(selected_emotions), len(axes) - 1):
         fig.delaxes(axes[i])
 
-    # Add the legend to the last subplot
-    ax = axes[-1]
+    # Add the legend to the last occupied subplot
+    ax = axes[len(selected_emotions)]
     ax.axis('off')  # Turn off the axis for the subplot used for legend
     ax.legend(handles=handles, labels=labels, loc='center')
 
