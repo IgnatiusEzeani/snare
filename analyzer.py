@@ -75,8 +75,8 @@ def plot_emotions(selected_emotions, fileids, with_combined=True):
         ax.set_ylim(y_limits)
         
         # Set plot labels
-        ax.set_ylabel("Emotion Score", fontsize=10)
-        ax.set_xlabel("Segments", fontsize=10)
+        ax.set_ylabel("Emotion Score", fontsize=12)
+        ax.set_xlabel("Segments", fontsize=12)
         
         # Hide unnecessary spines
         ax.spines[['top', 'right']].set_visible(False)
@@ -85,17 +85,17 @@ def plot_emotions(selected_emotions, fileids, with_combined=True):
     # Add the legend to the last occupied subplot
     ax = axes[len(selected_emotions)]
     ax.axis('off')  # Turn off the axis for the subplot used for legend
-    ax.legend(handles=handles, labels=labels, loc='center')
+    ax.legend(handles=handles, labels=labels, loc='center', fontsize=14)
 
     # Hide any unused subplots (besides the last one)
     for i in range(len(selected_emotions)+1, len(axes)):
         fig.delaxes(axes[i])
 
     # Set overall title
-    plt.suptitle(title, fontsize=20)
+    plt.suptitle(title, fontsize=16)
 
     # Optionally set a global x-axis label
-    fig.text(0.5, 0.04, 'Testimony Segments: 0 --> 100', ha='center', fontsize=12)  # Global x-axis label
+    fig.text(0.5, 0.04, 'Testimony Segments: 0 --> 100', ha='center', fontsize=14)  # Global x-axis label
 
     # Adjust layout
     plt.tight_layout(rect=[0, 0.05, 1, 0.95])  # Leave space for the global x-axis label
