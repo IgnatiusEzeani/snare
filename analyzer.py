@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from io import BytesIO
 import streamlit as st
+import math
+
 
 def plot_emotions(selected_emotions, fileids, with_combined=True):
     """
@@ -20,9 +22,14 @@ def plot_emotions(selected_emotions, fileids, with_combined=True):
         return "Error: You must select at least one testimony ID!"
 
     title = "Plotting the journeys of\n" + ', '.join([f"'{e}'" for e in selected_emotions[:-1]]) + f" and '{selected_emotions[-1]}'\nacross testimony segments."
-    
-    # Set up the subplots in a 5x2 grid (9 for data and 1 for the legend)
-    fig, axes = plt.subplots(5, 2, figsize=(16, 20), sharex=True, sharey=True)
+
+    # Dynamically allocate the number of rows based on the number of emotions
+    n_emotions = len(selected_emotions)
+    n_cols = 2  # Fixed number of columns
+    n_rows = math.ceil(n_emotions / n_cols)  # Compute the number of rows needed
+
+    # Set up the subplots grid based on the computed rows and columns
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(16, 4 * n_rows), sharex=True, sharey=True)
     
     # Flatten axes array for easy indexing
     axes = axes.flatten()
