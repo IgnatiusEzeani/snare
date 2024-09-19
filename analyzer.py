@@ -5,7 +5,7 @@ import streamlit as st
 import math
 
 
-def plot_emotions(selected_emotions, fileids, with_combined=True):
+def plot_emotions(selected_emotions, fileids, with_combined=True, plot_type='line'):
     """
     Function to plot emotions across testimony segments for multiple files.
 
@@ -52,27 +52,29 @@ def plot_emotions(selected_emotions, fileids, with_combined=True):
     # Plot each emotion in a separate subplot
     for i, emotion in enumerate(selected_emotions):
         ax = axes[i]
-        ax.set_title(emotion, fontsize=12)
+        ax.set_title(emotion, fontsize=14)
         if with_combined:
             # Plot for "All 998 Testimonies" first
-            line = ax.plot(data1.index, data1[emotion], linestyle='--', color='black', label='All 998 Testimonies')
+            line = ax.plot(data1.index, data1[emotion], linestyle='--', color='red', label='All 998 Testimonies')
             if i == 0:  # Only add the label once to avoid duplication
                 handles.append(line[0])
                 labels.append('All 998 Testimonies')
 
-            # Plot for each fileid separately
-            for idx, data2 in enumerate(data2_list):
-                line = ax.plot(data2.index, data2[emotion], label=f"Testimony ID '{fileids[idx]}'")
-                if i == 0:  # Only add the label once
-                    handles.append(line[0])
-                    labels.append(f"Testimony ID '{fileids[idx]}'")
-        else:
-            # Plot for each fileid separately
-            for idx, data2 in enumerate(data2_list):
-                line = ax.plot(data2.index, data2[emotion], label=f"Testimony ID '{fileids[idx]}'")
-                if i == 0:  # Only add the label once
-                    handles.append(line[0])
-                    labels.append(f"Testimony ID '{fileids[idx]}'")
+        # Plot for each fileid separately
+        for idx, data2 in enumerate(data2_list):
+            if plot_type=='line': line = ax.plot(data2.index, data2[emotion], label=f"Testimony ID '{fileids[idx]}'")
+            else: bar = ax.bar(data2.index, data2[emotion], label=f"Testimony ID '{fileids[idx]}'", alpha=0.7)
+
+            if i == 0:  # Only add the label once
+                handles.append(bar[0])
+                labels.append(f"Testimony ID '{fileids[idx]}'")
+        # else:
+        #     # Plot for each fileid separately
+        #     for idx, data2 in enumerate(data2_list):
+        #         line = ax.plot(data2.index, data2[emotion], label=f"Testimony ID '{fileids[idx]}'")
+        #         if i == 0:  # Only add the label once
+        #             handles.append(line[0])
+        #             labels.append(f"Testimony ID '{fileids[idx]}'")
 
         # Set limits for x and y axes
         ax.set_xlim(x_limits)
