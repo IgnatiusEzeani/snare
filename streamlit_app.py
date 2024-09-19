@@ -60,15 +60,16 @@ def main() -> None:
         with_combined = st.sidebar.checkbox("Include plot of combined scores?", False)
 
         # # Include plot of combined scores for male survivors
-        # males = st.sidebar.checkbox("Male survivors combined?", False)
+        # males = st.sidebar.checkbox("Include combined male scores?", False)
 
         # # Include plot of combined scores for male survivors
-        # males = st.sidebar.checkbox("Male survivors combined?", False)
+        females = st.sidebar.checkbox("Include combined female scores?", False)
         
         # Line or Barchart
         barchart = st.checkbox("Use Barchart?", False)
 
-        err = plot_emotions(selected_emotions, selected_fileids, with_combined, barchart=barchart)
+        err = plot_emotions(selected_emotions, selected_fileids, with_combined, barchart=barchart,
+                            females=females)
         if err: st.error(err, icon="🚨")
 
     elif option == "LLM Query-Prompting":

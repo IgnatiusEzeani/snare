@@ -5,7 +5,8 @@ import streamlit as st
 import math
 
 
-def plot_emotions(selected_emotions, fileids, with_combined=True, barchart=False):
+def plot_emotions(selected_emotions, fileids, with_combined=True, barchart=False,
+                  males=False, females=False):
     """
     Function to plot emotions across testimony segments for multiple files.
 
@@ -15,6 +16,9 @@ def plot_emotions(selected_emotions, fileids, with_combined=True, barchart=False
     - with_combined (bool): If True, include the combined results from all files in the plot.
     """
     all_file_scores_df = pd.read_csv(f"llm_emotion_scores/all_file_scores.tsv", sep='\t')
+    males_df = pd.read_csv(f"llm_emotion_scores/male_scores.tsv", sep='\t')
+    females_df = pd.read_csv(f"llm_emotion_scores/female_scores.tsv", sep='\t')
+
     if len(selected_emotions) < 1:
         return "Error: You must select at least one emotion label!"
     
@@ -39,6 +43,8 @@ def plot_emotions(selected_emotions, fileids, with_combined=True, barchart=False
     
     # Get data based on fileids (All or multiple specific files)
     data1 = all_file_scores_df[selected_emotions].rolling(10).mean().dropna()
+    male_data = males_df[selected_emotions].rolling(10).mean().dropna()
+    female_data = females_df[selected_emotions].rolling(10).mean().dropna()
     data2_list = [pd.read_csv(f"llm_emotion_scores/{f}_scores.tsv", sep='\t')[selected_emotions].rolling(10).mean().dropna() for f in fileids]
     
     # Define limits for x and y axis based on the entire data range
@@ -59,6 +65,18 @@ def plot_emotions(selected_emotions, fileids, with_combined=True, barchart=False
             if i == 0:  # Only add the label once to avoid duplication
                 handles.append(line[0])
                 labels.append('All 998 Testimonies')
+        if males:
+            # Include female scores
+            line = ax.plot(male_data.index, male_data[emotion], linestyle='--', color='blue', label='Male testimonies')
+            if i == 0:  # Only add the label once to avoid duplication
+                handles.append(line[0])
+                labels.append('Male testimonies')
+        if females:
+            # Include female scores
+            line = ax.plot(female_data.index, female_data[emotion], linestyle='--', color='blue', label='Female testimonies')
+            if i == 0:  # Only add the label once to avoid duplication
+                handles.append(line[0])
+                labels.append('Female testimonies')
 
         # Plot for each fileid separately
         for idx, data2 in enumerate(data2_list):
@@ -68,13 +86,6 @@ def plot_emotions(selected_emotions, fileids, with_combined=True, barchart=False
             if i == 0:  # Only add the label once
                 handles.append(bar[0] if barchart else line[0])
                 labels.append(f"Testimony ID '{fileids[idx]}'")
-        # else:
-        #     # Plot for each fileid separately
-        #     for idx, data2 in enumerate(data2_list):
-        #         line = ax.plot(data2.index, data2[emotion], label=f"Testimony ID '{fileids[idx]}'")
-        #         if i == 0:  # Only add the label once
-        #             handles.append(line[0])
-        #             labels.append(f"Testimony ID '{fileids[idx]}'")
 
         # Set limits for x and y axes
         ax.set_xlim(x_limits)
