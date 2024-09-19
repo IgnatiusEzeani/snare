@@ -66,7 +66,7 @@ def plot_emotions(selected_emotions, fileids, with_combined=True, barchart=False
             else: line = ax.plot(data2.index, data2[emotion], label=f"Testimony ID '{fileids[idx]}'")
 
             if i == 0:  # Only add the label once
-                handles.append(bar[0])
+                handles.append(bar[0] if barchart else line[0])
                 labels.append(f"Testimony ID '{fileids[idx]}'")
         # else:
         #     # Plot for each fileid separately
