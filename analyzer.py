@@ -26,7 +26,7 @@ def plot_emotions(selected_emotions, fileids, with_combined=True):
     # Dynamically allocate the number of rows based on the number of emotions
     n_emotions = len(selected_emotions)
     n_cols = 2  # Fixed number of columns
-    n_rows = math.ceil(n_emotions / n_cols)  # Compute the number of rows needed
+    n_rows = math.ceil(n_emotions / n_cols) + 1 # Compute the number of rows needed
 
     # Set up the subplots grid based on the computed rows and columns
     fig, axes = plt.subplots(n_rows, n_cols, figsize=(16, 4 * n_rows), sharex=True, sharey=True)
