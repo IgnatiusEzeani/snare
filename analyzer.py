@@ -21,7 +21,10 @@ def plot_emotions(selected_emotions, fileids, with_combined=True):
     if len(fileids) < 1:
         return "Error: You must select at least one testimony ID!"
 
-    title = "Plotting the journeys of\n" + ', '.join([f"'{e}'" for e in selected_emotions[:-1]]) + f" and '{selected_emotions[-1]}'\nacross testimony segments."
+    if len(selected_emotions) > 4:
+        title = "Plotting the journeys of\n" + ', '.join([f"'{e}'" for e in selected_emotions[:-1]]) + f" and '{selected_emotions[-1]}'\nacross testimony segments."
+    else:
+        title = "Plotting the journeys of " + ', '.join([f"'{e}'" for e in selected_emotions[:-1]]) + f" and '{selected_emotions[-1]}' across testimony segments."
 
     # Dynamically allocate the number of rows based on the number of emotions
     n_emotions = len(selected_emotions)
