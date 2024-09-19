@@ -72,7 +72,7 @@ def plot_emotions(selected_emotions, fileids, with_combined=True, barchart=False
                 labels.append('Male testimonies')
         if females:
             # Include female scores
-            line = ax.plot(female_data.index, female_data[emotion], linestyle='--', color='blue', label='Female testimonies')
+            line = ax.plot(female_data.index, female_data[emotion], linestyle='--', color='green', label='Female testimonies')
             if i == 0:  # Only add the label once to avoid duplication
                 handles.append(line[0])
                 labels.append('Female testimonies')

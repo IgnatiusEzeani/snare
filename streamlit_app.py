@@ -70,6 +70,7 @@ def main() -> None:
 
         err = plot_emotions(selected_emotions, selected_fileids, with_combined, barchart=barchart,
                             males=males, females=females)
+
         if err: st.error(err, icon="🚨")
 
     elif option == "LLM Query-Prompting":
