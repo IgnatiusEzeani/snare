@@ -52,6 +52,7 @@ def plot_emotions(selected_emotions, fileids, with_combined=True):
     # Plot each emotion in a separate subplot
     for i, emotion in enumerate(selected_emotions):
         ax = axes[i]
+        ax.set_title(emotion, fontsize=12)
         if with_combined:
             # Plot for "All 998 Testimonies" first
             line = ax.plot(data1.index, data1[emotion], linestyle='--', color='black', label='All 998 Testimonies')
@@ -78,9 +79,8 @@ def plot_emotions(selected_emotions, fileids, with_combined=True):
         ax.set_ylim(y_limits)
         
         # Set plot labels
-        ax.set_title(emotion, fontsize=12)
         ax.set_ylabel("Emotion Score", fontsize=12)
-        ax.set_xlabel("Segments", fontsize=12)
+        # ax.set_xlabel("Segments", fontsize=12)
         
         # Hide unnecessary spines
         ax.spines[['top', 'right']].set_visible(False)

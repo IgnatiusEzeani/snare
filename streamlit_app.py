@@ -57,7 +57,13 @@ def main() -> None:
         selected_fileids = st.sidebar.multiselect("Select Testimony ID", fileids, ['268', '37210', '37567'])
 
         # Include plot of combined scores in the plot?
-        with_combined = st.checkbox("Include plot of combined scores?", True)
+        with_combined = st.sidebar.checkbox("Include plot of combined scores?", False)
+
+        # # Include plot of combined scores for male survivors
+        # males = st.sidebar.checkbox("Male survivors combined?", False)
+
+        # # Include plot of combined scores for male survivors
+        # males = st.sidebar.checkbox("Male survivors combined?", False)
 
         err = plot_emotions(selected_emotions, selected_fileids, with_combined)
         if err: st.error(err, icon="🚨")
