@@ -4,7 +4,6 @@ from io import BytesIO
 import streamlit as st
 import math
 
-
 def plot_emotions(selected_emotions, fileids, with_combined=True, barchart=False,
                   males=False, females=False):
     """
