@@ -78,6 +78,7 @@ def plot_emotions(selected_emotions, fileids, with_combined=True):
         ax.set_ylim(y_limits)
         
         # Set plot labels
+        ax.set_title(emotion, fontsize=12)
         ax.set_ylabel("Emotion Score", fontsize=12)
         ax.set_xlabel("Segments", fontsize=12)
         
