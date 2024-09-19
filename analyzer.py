@@ -74,14 +74,15 @@ def plot_emotions(selected_emotions, fileids, with_combined=True):
         # Hide unnecessary spines
         ax.spines[['top', 'right']].set_visible(False)
 
-    # Hide any unused subplots (besides the last one)
-    for i in range(len(selected_emotions), len(axes) - 1):
-        fig.delaxes(axes[i])
 
     # Add the legend to the last occupied subplot
     ax = axes[len(selected_emotions)]
     ax.axis('off')  # Turn off the axis for the subplot used for legend
     ax.legend(handles=handles, labels=labels, loc='center')
+
+    # Hide any unused subplots (besides the last one)
+    for i in range(len(selected_emotions)+1, len(axes)):
+        fig.delaxes(axes[i])
 
     # Set overall title
     plt.suptitle(title, fontsize=20)
