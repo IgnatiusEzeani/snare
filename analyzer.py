@@ -91,7 +91,7 @@ def plot_emotions(selected_emotions, fileids, with_combined=True, barchart=False
         ax.set_ylim(y_limits)
         
         # Set plot labels
-        ax.set_ylabel("Emotion Score", fontsize=12)
+        ax.set_ylabel(f"Moving average scores '{emotion}'", fontsize=12)
         # ax.set_xlabel("Segments", fontsize=12)
         
         # Hide unnecessary spines

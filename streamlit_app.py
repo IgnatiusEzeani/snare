@@ -29,6 +29,8 @@ models = {"llama3-8b-8192": "llama3-8b-8192", "llama3-70b-8192": "llama3-70b-819
           "llama-3.1-8b-instant": "llama-3.1-8b-instant", "gemma-7b-it": "gemma-7b-it", 
           "mixtral-8x7b-32768": "mixtral-8x7b-32768"}
 
+example_ids = [('268', 'M'), ('36999','F'), ('37250','M'), ('37409','F')] # added gender information for later use
+
 # file_formats = {"csv": pd.read_csv, "tsv": pd.read_csv, "xls": pd.read_excel, "xlsx": pd.read_excel, 
 #                 "xlsm": pd.read_excel, "xlsb": pd.read_excel, "json": pd.read_json}
 
@@ -54,7 +56,7 @@ def main() -> None:
 
         # Add testimony id selector
         fileids = sorted([f.split('_')[0] for f in os.listdir("llm_emotion_scores") if f!="all_file_scores.tsv"])  # List of file IDs
-        selected_fileids = st.sidebar.multiselect("Select Testimony ID", fileids, ['268', '37210', '37567'])
+        selected_fileids = st.sidebar.multiselect("Select Testimony ID", fileids, [id for id, _ in example_ids])
 
         # Include plot of combined scores in the plot?
         with_combined = st.sidebar.checkbox("Include plot of combined scores?", False)
