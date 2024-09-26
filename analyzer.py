@@ -1,8 +1,15 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 from io import BytesIO
 import streamlit as st
 import math
+
+def map_emotions():
+    df = pd.DataFrame(
+        np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
+        columns=['lat', 'lon'])
+    st.map(df)
 
 def plot_emotions(selected_emotions, fileids, with_combined=True, barchart=False,
                   males=False, females=False):

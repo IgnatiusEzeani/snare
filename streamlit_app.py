@@ -128,6 +128,7 @@ def main() -> None:
 
 main()
 
+map_emotions()
 # elif option == "Spatial AnalysisCorpora LLM Prompting":
 #     pass
     # uploaded_files = st.file_uploader("Upload annotated testimony file(s)", accept_multiple_files=True)
