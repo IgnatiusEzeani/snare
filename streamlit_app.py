@@ -19,8 +19,8 @@ st.set_page_config(
  )
 
 st.markdown("## SNARE 1.0")
-st.markdown("### Spatial Narratives Representation Environment")
-st.markdown("##### Analysing the Lake District Writing and Holocaust Testimonies")
+st.markdown("#### Spatial Narratives Representation Environment")
+st.markdown("###### Analysing the Lake District Writing and Holocaust Testimonies")
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
