@@ -24,6 +24,7 @@ st.markdown("###### Analysing the Lake District Writing and Holocaust Testimonie
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
+
 models = {"llama3-8b-8192": "llama3-8b-8192", "llama3-70b-8192": "llama3-70b-8192", 
           "llama-3.1-70b-versatile": "llama-3.1-70b-versatile", "gemma2-9b-it": "gemma2-9b-it", 
           "llama-3.1-8b-instant": "llama-3.1-8b-instant", "gemma-7b-it": "gemma-7b-it", 
